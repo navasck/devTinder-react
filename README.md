@@ -2,7 +2,7 @@ DevTinder
 Create a Vite + React application
 Remove unecessary code and create a Hello World app
 Install Tailwind CSS-  https://tailwindcss.com/docs/guides/vite
-Install Daisy UI
+Install Daisy UI - https://daisyui.com/docs/install/  npm i -D daisyui@latest
 Add NavBar component to App.jsx
 Create a NavBar.jsx separate Component file
 Install react router dom

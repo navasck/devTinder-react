@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  frontend:
+    image: devtinder-react
+    build:
+      context: ./devTinder-react
+      dockerfile: Dockerfile
+    ports:
+      - "81:81"
+    depends_on:
+      - backend
+    restart: always
+
+  backend:
+    image: devtinder-node
+    build:
+      context: ./devTinder
+      dockerfile: Dockerfile
+    ports:
+      - "7778:7778"
+    restart: always

@@ -26,8 +26,8 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: docker.io # Or docker.io for Docker Hub
-          username: saeedhmohd244 # Or your Docker Hub username
-          password: mishab@123 # Use a GitHub personal access token for GitHub Container Registry. For Docker Hub, use your Docker Hub password stored as a secret.
+          username: cknavas123@gmail.com # Or your Docker Hub username
+          password: navas123docker # Use a GitHub personal access token for GitHub Container Registry. For Docker Hub, use your Docker Hub password stored as a secret.
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
@@ -35,7 +35,7 @@ jobs:
           context: . # Path to your Dockerfile (usually the root of the repo)
           file: ./Dockerfile # Path to your Dockerfile (if it's not in the root)
           push: true
-          tags: saeedhmohd244/devtinder-react:latest # Replace with your image name and tag.  For Docker Hub: your-dockerhub-username/your-repo-name:latest
+          tags: navasck/devtinder-react:latest # Replace with your image name and tag.  For Docker Hub: your-dockerhub-username/your-repo-name:latest
           # For multi-architecture builds (optional):
           # platforms: linux/amd64,linux/arm64
           # build-args: |

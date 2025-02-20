@@ -48,7 +48,8 @@ jobs:
 
       - name: Deploy to EC2  # Correct indentation - This is now a separate step
         run: |
-          docker pull navasck/devtinder-react:latest # Corrected image name
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} docker.io # Login is crucial!
+          # docker pull navasck/devtinder-react:latest # Corrected image name
           docker-compose down  # Or docker stop <container_name> && docker rm <container_name>
           docker-compose up -d --build  # Or docker run -d -p <port_mapping> <image_name>
 

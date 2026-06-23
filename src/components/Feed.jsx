@@ -2,27 +2,21 @@ import axios from 'axios';
 import { BASE_URL } from '../utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { addFeed } from '../utils/feedSlice';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import UserCard from './UserCard';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectCoverflow, Pagination } from 'swiper/modules';
-
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/pagination';
 
 const Feed = () => {
   const feed = useSelector((store) => store.feed);
   const dispatch = useDispatch();
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const getFeed = async () => {
     if (feed) return;
+
     try {
-      const res = await axios.get(BASE_URL + '/feed', {
+      const res = await axios.get(`${BASE_URL}/feed`, {
         withCredentials: true,
       });
+
       dispatch(addFeed(res?.data?.data));
     } catch (err) {
       console.error(err);
@@ -30,51 +24,49 @@ const Feed = () => {
   };
 
   useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const slidesPerView = windowWidth < 768 ? 'auto' : 5;
-
-  useEffect(() => {
     getFeed();
   }, []);
-  if (!feed) return;
 
-  if (feed.length <= 0)
-    return <h1 className='flex justify-center my-10'>No new users founds!</h1>;
+  if (!feed) {
+    return (
+      <div className="flex justify-center py-20">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
+
+  if (feed.length === 0) {
+    return (
+      <div className="text-center py-20">
+        <h2 className="text-2xl font-semibold">No new users found</h2>
+        <p className="text-base-content/70 mt-2">
+          Check back later for more matches.
+        </p>
+      </div>
+    );
+  }
 
   return (
-    <>
-      <div className='flex my-10'>
-        {/* <UserCard user={feed[0]} /> */}
-        <Swiper
-          effect={'coverflow'}
-          grabCursor={true}
-          centeredSlides={true}
-          slidesPerView={slidesPerView}
-          coverflowEffect={{
-            rotate: 50,
-            stretch: 0,
-            depth: 100,
-            modifier: 1,
-            slideShadows: true,
-          }}
-          pagination={true}
-          modules={[EffectCoverflow, Pagination]}
-          className='mySwiper'
-        >
-          {feed?.map((user) => (
-            <SwiperSlide key={user._id || user.id}>
-              <div className=''>
-                <UserCard user={user} />
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+    <div className="max-w-7xl mx-auto px-4 py-10">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold">Discover People</h1>
+        <p className="text-base-content/70 mt-2">
+          Find and connect with amazing people.
+        </p>
       </div>
-    </>
+
+      <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {feed.map((user) => (
+          <div
+            key={user._id}
+            className="transition-transform duration-300 hover:-translate-y-2"
+          >
+            <UserCard user={user} />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
+
 export default Feed;
